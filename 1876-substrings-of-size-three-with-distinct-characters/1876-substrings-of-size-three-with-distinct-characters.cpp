@@ -1,21 +1,23 @@
 class Solution {
 public:
     int countGoodSubstrings(string s) {
-        int count=0;
-        int ws=0;
+        int n = s.size();
         unordered_map<char,int> mp;
-        for(int we=0;we<s.length();we++){
-            mp[s[we]]++;
-            if(we-ws+1 == 3){
+        
+        int begin=0,end=0;
+        int count=0;
+        
+        while(end<n){
+            mp[s[end]]++;
+            if((end-begin+1)<3)end++;
+            else{
                 if(mp.size()==3)count++;
-                mp[s[ws]]--;
-                if(mp[s[ws]]==0){
-                    mp.erase(s[ws]);
-                }
-                ws++;
+                mp[s[begin]]--;
+                if(mp[s[begin]]==0)mp.erase(s[begin]);
+                begin++;
+                end++;
             }
         }
-        
         return count;
     }
 };
