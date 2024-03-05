@@ -1,23 +1,47 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        int n=s.length(),requiredchar=t.length();
-        if(n < requiredchar) return "";
-        int minlength=INT_MAX,left=0,right=0,start=0;
-        vector <int> tmap(123,0);
-        for(char &c:t) tmap[c]++;
-        while(right<n){
-            char curr=s[right++];
-            if(tmap[curr]-->0) requiredchar--;
-            while(requiredchar==0){
-                int currsize=right-left;
-                if(currsize < minlength){
-                    minlength=currsize;
-                    start=left;
-                }
-                if(++tmap[s[left++]]>0) requiredchar++;
+        unordered_map<char, int> freq;
+        // we are calculating what frequencies do we need to have substring window
+        for(int i = 0; i < t.size(); i++){
+            freq[t[i]]++;
+        }
+        // we assume that whole s is our substring window and decrease frequencies for letters we have
+        for(int i = 0; i < s.size(); i++){
+            freq[s[i]]--;
+        }
+        // if we do not have certain letters then we return ""
+        for(auto it: freq){
+            if(it.second > 0){
+                return "";
             }
         }
-        return minlength==INT_MAX ? "" : s.substr(start,minlength);        
+        // we now trying to make minimum window substring that have left side on 0
+        int l = 0;
+        int r = s.size()-1;
+        while(freq[s[r]] < 0){
+            freq[s[r]]++;
+            r--;
+        }
+        int best_length = r-l + 1;
+        int best_l = l;
+        // we now trying to make minimum window substring
+        while(r < s.size()){
+            // if it is possible we try to minimize left 
+            if(freq[s[l]] < 0){
+                freq[s[l]]++;
+                l++;
+                // whenever we minimize from the left then we can check if it is minimum and save result
+                if(r-l+1 < best_length){
+                    best_length = r-l+1;
+                    best_l = l;
+                }
+            } else {
+                // if not we have to increase right
+                r++;
+                freq[s[r]]--;
+            }
+        }
+        return s.substr(best_l, best_length);
     }
 };
