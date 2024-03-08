@@ -1,14 +1,21 @@
 class Solution {
 public:
     string reorganizeString(string s) {
-       vector<int> chrCounts(26);
-		for (auto& chr: s) { if(++chrCounts[chr-97] > (s.size()+1)/2) return "";}
+       vector<int> counts(26);
+        
+        for(auto& ch:s){
+            counts[ch-97]++;
+            int size = (s.size()+1)/2;
+            if(counts[ch-97]>size){
+                return "";
+            }
+        }
         
         priority_queue<pair<int,char>> pq;
         
         for(int i=0;i<26;i++){
-            if(chrCounts[i]){
-                pq.push({chrCounts[i],i+97});
+            if(counts[i]){
+                pq.push({counts[i],i+97});
             }
         }
         int i=0;
