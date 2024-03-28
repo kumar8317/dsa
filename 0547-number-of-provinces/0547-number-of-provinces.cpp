@@ -4,13 +4,27 @@ public:
         int n = isConnected.size();
         int ans = 0;
         vector<bool> visit(n);
+        stack<int> st;
+        
         
         for(int i=0;i<n;i++){
             if(!visit[i]){
                 ans++;
-                dfs(i,isConnected,visit);
+                st.push(i);
+                while(!st.empty()){
+                    int current  = st.top();
+                    st.pop();
+                    //ans++;
+                    for(int j=0;j<isConnected.size();j++){
+                        if(isConnected[current][j] && !visit[j]){
+                            visit[j]=true;
+                            st.push(j);
+                        }
+                    }
+                }
             }
         }
+        
         return ans;
     }
     
