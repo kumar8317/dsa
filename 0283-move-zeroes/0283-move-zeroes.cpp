@@ -5,11 +5,9 @@ public:
         int n = nums.size();
         for(int i=0;i<n;i++){
             if(nums[i]!=0){
-                nums[j++]=nums[i];
+               swap(nums[i],nums[j++]);
             }
         }
-        while(j<n){
-            nums[j++]=0;
-        }
+       
     }
 };
