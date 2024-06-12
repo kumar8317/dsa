@@ -11,26 +11,42 @@
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        int size = 1;
+        if(!head)return head;
+        
+        if(!head->next)return head;
+        
+        if(k==0)return head;
+        
+        int count=0;
+        
+        ListNode* temp=head;
+        
+        while(temp){
+            temp = temp->next;
+            count++;
+        }
+        k = k%count;
+        if(k==0)return head;
+        count-=k;
+        
         ListNode* curr = head;
-        if(!head) return head;
-        while(curr->next){
+        ListNode* prev = nullptr;
+        
+        while(count--){
+            prev = curr;
             curr = curr->next;
-            size++;
-        }
-        curr->next = head;
-        
-        int i = size - (k%size);
-        
-        while(i>1) {
-            head = head->next;
-            i--;
         }
         
-        curr = head->next;
-        head->next = nullptr;
+        prev->next = nullptr;
         
-        return curr;
+        ListNode* tail = curr;
         
+        while(tail->next){
+            tail = tail->next;
+        }
+        tail->next = head;
+        head = curr;
+        
+        return head;
     }
 };
