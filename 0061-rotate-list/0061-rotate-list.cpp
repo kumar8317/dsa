@@ -15,7 +15,6 @@ public:
         
         if(!head->next)return head;
         
-        if(k==0)return head;
         
         int count=0;
         
