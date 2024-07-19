@@ -10,42 +10,55 @@
  */
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        if(k<=1 || !head) return head;
-        
-        ListNode* curr=head;
-        ListNode* prev = nullptr;
-        int n = 0;
+    ListNode* reverse(ListNode* head){
         ListNode* temp = head;
+        ListNode* prev = NULL;
+        ListNode* next;
+        while(temp){
+            next = temp->next;
+            temp->next = prev; 
+            prev = temp;
+            temp = next;
+        }
+        
+        return prev;
+    }
+    ListNode* getKthNode(ListNode* temp,int k){
+        k--;
+        while(temp && k>0){
+            k--;
+            temp = temp->next;
+        }
+        return temp;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* temp  = head;
+        
+        ListNode* prevLast = NULL;
+        
         
         while(temp){
-            temp = temp->next;
-            n++;
-        }
-        cout<<"n"<<n<<endl;
-        while(n>=k){
-            ListNode* l1 = prev;
-            ListNode* l2 = curr;
+            ListNode* kthNode = getKthNode(temp,k);
             
-            ListNode* next = nullptr;
-            for(int i=0;curr && i<k;i++){
-                next = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = next;
+            if(kthNode == NULL){
+                if(prevLast){
+                    prevLast ->next= temp;
+                }
+                break;
             }
-            if(l1){
-                l1->next = prev;
+            ListNode* nextNode = kthNode->next;
+            kthNode->next = NULL;
+            
+            reverse(temp);
+            if(temp == head){
+                head = kthNode;
             }else{
-                head = prev;
+                prevLast->next = kthNode;
             }
-            l2->next = curr;
-            
-            if(!curr) break;
-            
-            prev = l2 ;
-            n = n-k;
+            prevLast = temp;
+            temp = nextNode;
         }
+        
         return head;
     }
 };
