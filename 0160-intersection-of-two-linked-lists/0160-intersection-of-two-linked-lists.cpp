@@ -24,20 +24,14 @@ public:
         return len1-len2;
     }
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int diff = getDifference(headA,headB);
+       ListNode* d1 = headA;
+        ListNode* d2 = headB;
         
-        if(diff<0){
-            while(diff++ !=0)headB = headB->next;
-        }else{
-            while(diff-- !=0)headA = headA->next;
+        while(d1!=d2){
+            d1 = d1 == NULL ? headB: d1->next;
+            d2 = d2 == NULL ? headA: d2->next;
         }
         
-        while(headA!=NULL){
-            if(headA == headB)return headA;
-            headA = headA->next;
-            headB = headB->next;
-        }
-        
-        return headA;
+        return d1;
     }
 };
