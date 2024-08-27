@@ -11,13 +11,18 @@ public:
             int y = abs(points[i][1])-0;
             int ele = x*x+y*y;
             
-            pq.push(make_pair(ele,make_pair(points[i][0],points[i][1])));
+            if(pq.size()>=k){
+                if(ele<pq.top().first){
+                    pq.pop();
+                    pq.push(make_pair(ele,make_pair(points[i][0],points[i][1])));
+                }
+            }else{
+                pq.push(make_pair(ele,make_pair(points[i][0],points[i][1])));
+            }
+            
         }
         
-        while(pq.size()>k){
-            pq.pop();
-        }
-        
+       
         vector<vector<int>> ans;
         
         while(!pq.empty()){
