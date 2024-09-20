@@ -9,7 +9,7 @@ public:
             mp[fruits[right]]++;
             if(mp[fruits[right]]==1)uniqueTree++;
             
-            while(uniqueTree>2){
+            if(uniqueTree>2){
                if(mp[fruits[left]]==1)uniqueTree--;
                 mp[fruits[left]]--;
                 left++;
