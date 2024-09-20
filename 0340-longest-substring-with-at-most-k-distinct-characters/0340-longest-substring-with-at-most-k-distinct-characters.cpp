@@ -11,7 +11,7 @@ public:
             freq[s[right]]++;
             distinct = freq.size();
             
-            while(distinct>k){
+            if(distinct>k){
                
                 freq[s[left]]--;
                 if(freq[s[left]]==0){
@@ -21,8 +21,8 @@ public:
                 distinct = freq.size();
                 left++;
             }
-            
-            maxLength = max(maxLength,right-left+1);
+            if(distinct<=k)
+                maxLength = max(maxLength,right-left+1);
             right++;
         }
         
