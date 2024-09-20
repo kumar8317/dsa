@@ -1,11 +1,10 @@
 class Solution {
 public:
-    int getMaxUniqueChars(string s){
+    int getMaxUniqueLetters(string s){
         bool map[26]={0};
-        
         int maxUnique=0;
-        for(int i=0;i<s.length();i++) {
-            if(!map[s[i]-'a']) {
+        for(int i=0;i<s.length();i++){
+            if(!map[s[i]-'a']){
                 maxUnique++;
                 map[s[i]-'a']=true;
             }
@@ -13,33 +12,34 @@ public:
         return maxUnique;
     }
     int longestSubstring(string s, int k) {
-        int countMap[26];
-        int maxUnique=getMaxUniqueChars(s);
-        int result=0;
-        
-        for(int currUnique=1;currUnique<=maxUnique;currUnique++){
-            memset(countMap,0,sizeof(countMap));
-            int windowStart=0,windowEnd=0,idx=0,unique=0,countAtLeastK=0;
-            
-            while(windowEnd<s.size()){
-                if(unique<=currUnique){
-                    idx=s[windowEnd]-'a';
-                    if(countMap[idx]==0)unique++;
-                    countMap[idx]++;
-                    if(countMap[idx]==k)countAtLeastK++;
-                    windowEnd++;
+        int count[26];
+        int maxUnique=getMaxUniqueLetters(s);
+
+        int res = 0;
+        for(int curr = 1; curr<=maxUnique;curr++){
+            memset(count,0,sizeof(count));
+            int left=0,right=0,idx=0,unique=0,countK=0;
+
+            while(right<s.length()){
+                if(unique<=curr){
+                    idx=s[right]-'a';
+                    if(count[idx]==0)unique++;
+                    count[idx]++;
+                    if(count[idx]==k)countK++;
+                    right++;
                 }else{
-                    idx = s[windowStart]-'a';
-                    if(countMap[idx]==k) countAtLeastK--;
-                    countMap[idx]--;
-                    if(countMap[idx]==0)unique--;
-                    windowStart++;
+                    idx=s[left]-'a';
+                    if(count[idx]==k)countK--;
+                    count[idx]--;
+                    if(count[idx]==0)unique--;
+                    left++;
                 }
-                if(unique==currUnique && unique==countAtLeastK){
-                    result=max(result,windowEnd-windowStart);
+                if(unique==curr && unique==countK){
+                    res=max(res,right-left);
                 }
             }
         }
-        return result;
+        return res;
+
     }
 };
