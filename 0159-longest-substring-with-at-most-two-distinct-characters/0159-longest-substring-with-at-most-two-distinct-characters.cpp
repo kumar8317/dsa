@@ -1,30 +1,28 @@
 class Solution {
 public:
     int lengthOfLongestSubstringTwoDistinct(string s) {
-        unordered_map<char,int> freq;
+        int charCount[256]={0};
         int left=0,right=0;
         int n = s.size();
         int maxLength = INT_MIN;
-        int mapSize=0;
+        int distinctCount=0;
         int k=2;
         while(right<n){
-            freq[s[right]]++;
-            mapSize = freq.size();
+            if(charCount[s[right]]==0){
+                distinctCount++;
+            }
+            charCount[s[right]]++;
+            
            
-            while(mapSize>k){
-                freq[s[left]]--;
-                if(freq[s[left]]<=0){
-                    freq.erase(s[left]);
-                }
+            while(distinctCount>k){
+               charCount[s[left]]--;
+                if(charCount[s[left]]==0)distinctCount--;
                 left++;
-                mapSize = freq.size();
             }
-            if(mapSize<=k){
-                maxLength = max(maxLength,right-left+1);
-            }
-             right++;
             
             
+            maxLength = max(maxLength,right-left+1);
+            right++;
         }
         
         return maxLength;
