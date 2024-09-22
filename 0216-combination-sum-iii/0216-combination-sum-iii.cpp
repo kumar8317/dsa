@@ -4,14 +4,14 @@ private:
         if(n==0 && temp.size()==k){
             ans.push_back(temp);
             return;
-        }else if(n<0 || temp.size()==k)return;
+        }
         
-        for(int i=number;i<9;i++){
-            
-                temp.push_back(i+1);
-                findCombinations(ans,temp,k,n-i-1,i+1);
+        for(int i=number;i<=9;i++){
+            if(i<=n){
+                temp.push_back(i);
+                findCombinations(ans,temp,k,n-i,i+1);
                 temp.pop_back();
-            
+            }
         }
     }
 public:
@@ -19,7 +19,7 @@ public:
         vector<vector<int>> ans;
         vector<int> temp;
         
-        findCombinations(ans,temp,k,n,0);
+        findCombinations(ans,temp,k,n,1);
         
         return ans;
     }
